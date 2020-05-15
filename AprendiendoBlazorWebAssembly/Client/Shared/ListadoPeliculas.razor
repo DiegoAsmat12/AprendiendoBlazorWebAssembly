@@ -1,0 +1,29 @@
+﻿@foreach (Pelicula pelicula in Peliculas)
+{
+    <div>
+        <p>Titulo: <b>@pelicula.Titulo</b></p>
+        <p>Fecha de Lanzamiento: <b>@pelicula.Lanzamiento.ToString("dd MMM yyyy")</b></p>
+    </div>
+}
+@if (Peliculas == null)
+{
+    <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+    <text>Cargando...</text>
+}
+else if (Peliculas.Count == 0)
+{
+    <text>No hay registros para mostrar</text>
+}
+else
+{
+    @foreach (Pelicula pelicula in Peliculas)
+    {
+        <PeliculaIndividual Pelicula="pelicula" />
+    }
+}
+@code{
+    [Parameter] public List<Pelicula> Peliculas { get; set; }
+
+
+
+}

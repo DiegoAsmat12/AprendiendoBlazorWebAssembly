@@ -1,0 +1,55 @@
+﻿@page "/"
+@using AprendiendoBlazorWebAssembly.Client.Helpers
+
+@*<h1>Hola, @UtilidadesString.Enmayuscular(nombre)</h1>
+<p> vamos a sumar 2+2 = @(2+2)</p>*@
+    <div>
+        <h3>Peliculas</h3>
+        
+        <ListadoPeliculas Peliculas="ObtenerPeliculas()" />
+
+    </div>
+    <div>
+        <h3>Crear nueva película</h3>
+
+        <EjemploTextBox @attributes="EjemploTextboxParametros"/>
+    </div>
+
+@code{
+    string nombre = "Diego";
+
+    private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
+                                       {
+                                           {"placeholder", "nuevo placeholder" },
+                                           {"disabled", "false" }
+                                       };
+
+    private List<Pelicula> ObtenerPeliculas()
+    {
+        return new List<Pelicula>(){
+                new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
+                new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
+                new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
+            };
+    }
+
+    public Pelicula SpiderMan { get { return ObtenerPelicula(); } }
+
+
+    private Pelicula ObtenerPelicula()
+    {
+        return new Pelicula()
+        {
+            Titulo = "Omaewa",
+            Lanzamiento = new DateTime(2019, 7, 2)
+        };
+    }
+
+
+
+    private void ManejarClick()
+    {
+        Console.WriteLine("Me han clickeado (desde metodo)!");
+    }
+
+}
