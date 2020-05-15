@@ -1,10 +1,10 @@
-﻿@foreach (Pelicula pelicula in Peliculas)
+﻿@*@foreach (Pelicula pelicula in Peliculas)
 {
     <div>
         <p>Titulo: <b>@pelicula.Titulo</b></p>
         <p>Fecha de Lanzamiento: <b>@pelicula.Lanzamiento.ToString("dd MMM yyyy")</b></p>
     </div>
-}
+}*@
 @if (Peliculas == null)
 {
     <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
@@ -16,14 +16,20 @@ else if (Peliculas.Count == 0)
 }
 else
 {
+    @*<input type="checkbox" @onchange="@(()=> MostrarBotones=!MostrarBotones)"/>*@
+    <input type="checkbox" @bind="MostrarBotones"/>
     @foreach (Pelicula pelicula in Peliculas)
     {
-        <PeliculaIndividual Pelicula="pelicula" />
+        <PeliculaIndividual Pelicula="pelicula" MostrarBotones="MostrarBotones" EliminarPelicula="EliminarPelicula"/>
     }
 }
 @code{
     [Parameter] public List<Pelicula> Peliculas { get; set; }
 
-
+    bool MostrarBotones = true;
+    void EliminarPelicula()
+    {
+        Console.WriteLine("Eliminado");
+    }
 
 }
