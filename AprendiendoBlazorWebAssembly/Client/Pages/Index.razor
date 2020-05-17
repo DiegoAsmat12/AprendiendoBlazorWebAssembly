@@ -6,7 +6,8 @@
     <div>
         <h3>Peliculas</h3>
 
-        <ListadoPeliculas Peliculas="ObtenerPeliculas()"/>
+        <ListadoPeliculas Peliculas="Peliculas"/>
+        <button @onclick="AgregarPelicula">AgregarPelicula</button>
         @*<ListadoPeliculas >
             <Cargando>
                 <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
@@ -35,21 +36,39 @@
 @code{
     string nombre = "Diego";
 
+
+    private List<Pelicula> Peliculas;
+
+    protected override void OnInitialized()
+    {
+        Peliculas = new List<Pelicula>()
+        {
+                        new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
+                        new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
+                        new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
+                    };
+    }
+
     private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
                                        {
                                            {"placeholder", "nuevo placeholder" },
                                            {"disabled", "false" }
                                        };
 
-    private List<Pelicula> ObtenerPeliculas()
+    //private List<Pelicula> ObtenerPeliculas()
+    //{
+    //    //return new List<Pelicula>();
+    //    //return null;
+    //    return new List<Pelicula>(){
+    //            new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
+    //            new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
+    //            new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
+    //        };
+    //}
+    void AgregarPelicula()
     {
-        //return new List<Pelicula>();
-        //return null;
-        return new List<Pelicula>(){
-                new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
-                new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
-                new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
-            };
+        Peliculas.Add(new Pelicula() { Titulo = "Nueva Pelicula", Lanzamiento = DateTime.Today });
+        
     }
 
     public Pelicula SpiderMan { get { return ObtenerPelicula(); } }

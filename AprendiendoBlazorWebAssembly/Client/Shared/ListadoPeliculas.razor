@@ -46,6 +46,23 @@ else if (Peliculas.Count == 0)
 @code{
     [Parameter] public List<Pelicula> Peliculas { get; set; }
 
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("On Initialized");
+    }
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("OnParametersSer"); 
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($"OnAfterRender: Primera vez: {firstRender}");
+    }
+    protected override bool ShouldRender()
+    {
+        Console.WriteLine("ShouldRender"); //para la actualizacion en tiempo real
+        return true;
+    }
 
     bool MostrarBotones = true;
     void EliminarPelicula(Pelicula pelicula)
