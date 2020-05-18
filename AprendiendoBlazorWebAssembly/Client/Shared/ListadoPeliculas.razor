@@ -1,4 +1,6 @@
-﻿@*@foreach (Pelicula pelicula in Peliculas)
+﻿@inject IJSRuntime js
+
+@*@foreach (Pelicula pelicula in Peliculas)
     {
         <div>
             <p>Titulo: <b>@pelicula.Titulo</b></p>
@@ -52,7 +54,7 @@ else if (Peliculas.Count == 0)
     }
     protected override void OnParametersSet()
     {
-        Console.WriteLine("OnParametersSer"); 
+        Console.WriteLine("OnParametersSer");
     }
     protected override void OnAfterRender(bool firstRender)
     {
@@ -65,10 +67,15 @@ else if (Peliculas.Count == 0)
     }
 
     bool MostrarBotones = true;
-    void EliminarPelicula(Pelicula pelicula)
+    async Task EliminarPelicula(Pelicula pelicula)
     {
-        Peliculas.Remove(pelicula);
-        Console.WriteLine($"Eliminada la Pelicula {pelicula.Titulo}");
+        var confirmado = await js.Confirm($"¿Desea borrar la película {pelicula.Titulo}?");
+        //await js.InvokeAsync<bool>("confirm", $"¿Desea borrar la película {pelicula.Titulo}?");
+        if (confirmado)
+        {
+            Peliculas.Remove(pelicula);
+            Console.WriteLine($"Eliminada la Pelicula {pelicula.Titulo}");
+        }
     }
 
 }

@@ -1,14 +1,17 @@
 ﻿@page "/"
 @using AprendiendoBlazorWebAssembly.Client.Helpers
+@inject ServicioSingleton singleton
+@inject IRepositorio repositorio
 
+<p>El valor del singleton es: @singleton.Valor</p>
 @*<h1>Hola, @UtilidadesString.Enmayuscular(nombre)</h1>
-<p> vamos a sumar 2+2 = @(2+2)</p>*@
-    <div>
-        <h3>Peliculas</h3>
+    <p> vamos a sumar 2+2 = @(2+2)</p>*@
+<div>
+    <h3>Peliculas</h3>
 
-        <ListadoPeliculas Peliculas="Peliculas"/>
-        <button @onclick="AgregarPelicula">AgregarPelicula</button>
-        @*<ListadoPeliculas >
+    <ListadoPeliculas Peliculas="Peliculas" />
+    <button @onclick="AgregarPelicula">AgregarPelicula</button>
+    @*<ListadoPeliculas >
             <Cargando>
                 <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
             </Cargando>
@@ -26,8 +29,8 @@
                 <text>Mensaje personalizado:no hay registros</text>
             </NoHayRegistros>
         </ListadoPeliculas>*@
-    </div>
-    @*<div>
+</div>
+@*<div>
         <h3>Crear nueva película</h3>
 
         <EjemploTextBox @attributes="EjemploTextboxParametros"/>
@@ -41,16 +44,11 @@
 
     protected override void OnInitialized()
     {
-        Peliculas = new List<Pelicula>()
-        {
-                        new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
-                        new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
-                        new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
-                    };
+        Peliculas = repositorio.ObtenerPeliculas();
     }
 
     private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
-                                       {
+                                   {
                                            {"placeholder", "nuevo placeholder" },
                                            {"disabled", "false" }
                                        };
