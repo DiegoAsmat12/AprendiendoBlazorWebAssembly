@@ -18,13 +18,22 @@ namespace AprendiendoBlazorWebAssembly.Client.Pages
         protected ServicioTransient Transient { get; set; }
         [Inject]
         protected IJSRuntime JS { get; set; }
-        protected async Task IncrementCount()
+
+        [JSInvokable]
+        public async Task IncrementCount() //debe ser publico
         {
             currentCount++;
             Singleton.Valor = currentCount;
             Transient.Valor = currentCount;
             currentCountStatic++;
             await JS.InvokeVoidAsync("pruebaPuntoNetStatic");
+        }
+        protected async Task IncrementCountJavascript()
+        {
+            //si quisiera pasarele un objeto
+            //var pelicula = new AprendiendoBlazorWebAssembly.Shared.Entidades.Pelicula();
+            //await JS.InvokeVoidAsync("pruebaPuntoNetInstancia",DotNetObjectReference.Create(pelicula));
+            await JS.InvokeVoidAsync("pruebaPuntoNetInstancia", DotNetObjectReference.Create(this));
         }
         [JSInvokable]
         public static Task<int> ObtenerCurrentCount()
