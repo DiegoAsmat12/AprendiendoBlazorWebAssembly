@@ -9,8 +9,9 @@
 <div>
     <h3>Peliculas</h3>
 
+    @*<ListadoPeliculas Peliculas="Peliculas" @ref="listado" />*@
     <ListadoPeliculas Peliculas="Peliculas" />
-    <button @onclick="AgregarPelicula">AgregarPelicula</button>
+
     @*<ListadoPeliculas >
             <Cargando>
                 <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
@@ -30,6 +31,7 @@
             </NoHayRegistros>
         </ListadoPeliculas>*@
 </div>
+<button @onclick="AgregarPelicula">AgregarPelicula</button>
 @*<div>
         <h3>Crear nueva película</h3>
 
@@ -39,11 +41,13 @@
 @code{
     string nombre = "Diego";
 
+    ListadoPeliculas listado;
 
     private List<Pelicula> Peliculas;
 
     protected override void OnInitialized()
     {
+        var lista = listado.Peliculas;
         Peliculas = repositorio.ObtenerPeliculas();
     }
 

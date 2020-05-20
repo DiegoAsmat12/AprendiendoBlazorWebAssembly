@@ -40,12 +40,16 @@ else if (Peliculas.Count == 0)
         <PeliculaIndividual Pelicula="pelicula" MostrarBotones="MostrarBotones" EliminarPelicula="EliminarPelicula" />
     </HayRegistros>
 </ListadoGenerico>
+<Confirmacion @ref="confirmacion" onConfirm="EliminarPeliculaConfirmacion" onCancel="onCancelConfirmacion">
+    <div>¿Desea borrar la película?</div>
+</Confirmacion>
 @*@foreach (Pelicula pelicula in Peliculas)
 {
 <PeliculaIndividual Pelicula="pelicula" MostrarBotones="MostrarBotones" EliminarPelicula="EliminarPelicula" />
 }*@
 
 @code{
+    Confirmacion confirmacion;
     [Parameter] public List<Pelicula> Peliculas { get; set; }
 
     protected override void OnInitialized()
@@ -69,13 +73,28 @@ else if (Peliculas.Count == 0)
     bool MostrarBotones = true;
     async Task EliminarPelicula(Pelicula pelicula)
     {
-        var confirmado = await js.Confirm($"¿Desea borrar la película {pelicula.Titulo}?");
-        //await js.InvokeAsync<bool>("confirm", $"¿Desea borrar la película {pelicula.Titulo}?");
-        if (confirmado)
-        {
-            Peliculas.Remove(pelicula);
-            Console.WriteLine($"Eliminada la Pelicula {pelicula.Titulo}");
-        }
+        confirmacion.Mostrar();
+        peliculaABorrar = pelicula;
+        //var confirmado = await js.Confirm($"¿Desea borrar la película {pelicula.Titulo}?");
+        ////await js.InvokeAsync<bool>("confirm", $"¿Desea borrar la película {pelicula.Titulo}?");
+        //if (confirmado)
+        //{
+        //    Peliculas.Remove(pelicula);
+        //    Console.WriteLine($"Eliminada la Pelicula {pelicula.Titulo}");
+        //}
+
+    }
+    Pelicula peliculaABorrar;
+    void EliminarPeliculaConfirmacion()
+    {
+        Peliculas.Remove(peliculaABorrar);
+        confirmacion.Ocultar();
+        peliculaABorrar = null;
+    }
+    void onCancelConfirmacion()
+    {
+        confirmacion.Ocultar();
+        peliculaABorrar = null;
     }
 
 }
