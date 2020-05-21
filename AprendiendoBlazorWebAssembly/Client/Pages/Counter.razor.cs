@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static AprendiendoBlazorWebAssembly.Client.Shared.MainLayout;
 
 namespace AprendiendoBlazorWebAssembly.Client.Pages
 {
@@ -18,6 +19,10 @@ namespace AprendiendoBlazorWebAssembly.Client.Pages
         protected ServicioTransient Transient { get; set; }
         [Inject]
         protected IJSRuntime JS { get; set; }
+        [CascadingParameter]
+        protected AppState appState { get; set; }
+        //[CascadingParameter(Name ="Size")]
+        //protected string Size { get; set; }
 
         [JSInvokable]
         public async Task IncrementCount() //debe ser publico

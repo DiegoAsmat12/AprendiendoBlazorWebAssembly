@@ -2,8 +2,8 @@
 @using AprendiendoBlazorWebAssembly.Client.Helpers
 @inject ServicioSingleton singleton
 @inject IRepositorio repositorio
-
-<p>El valor del singleton es: @singleton.Valor</p>
+@using static AprendiendoBlazorWebAssembly.Client.Shared.MainLayout;
+<p style="color:@appState.Color;">El valor del singleton es: @singleton.Valor</p>
 @*<h1>Hola, @UtilidadesString.Enmayuscular(nombre)</h1>
     <p> vamos a sumar 2+2 = @(2+2)</p>*@
 <div>
@@ -42,17 +42,18 @@
     string nombre = "Diego";
 
     ListadoPeliculas listado;
+    [CascadingParameter] private AppState appState { get; set; }
 
     private List<Pelicula> Peliculas;
 
     protected override void OnInitialized()
     {
-        var lista = listado.Peliculas;
+        //var lista=listado.Peliculas;
         Peliculas = repositorio.ObtenerPeliculas();
     }
 
     private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
-                                   {
+                               {
                                            {"placeholder", "nuevo placeholder" },
                                            {"disabled", "false" }
                                        };
