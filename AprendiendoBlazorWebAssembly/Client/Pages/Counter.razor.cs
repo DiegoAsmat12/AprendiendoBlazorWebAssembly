@@ -19,8 +19,8 @@ namespace AprendiendoBlazorWebAssembly.Client.Pages
         protected ServicioTransient Transient { get; set; }
         [Inject]
         protected IJSRuntime JS { get; set; }
-        [CascadingParameter]
-        protected AppState appState { get; set; }
+        //[CascadingParameter]
+        //protected AppState appState { get; set; }
         //[CascadingParameter(Name ="Size")]
         //protected string Size { get; set; }
 

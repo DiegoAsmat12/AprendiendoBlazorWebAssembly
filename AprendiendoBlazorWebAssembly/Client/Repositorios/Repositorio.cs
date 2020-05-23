@@ -12,9 +12,9 @@ namespace AprendiendoBlazorWebAssembly.Client.Repositorios
         {
             return new List<Pelicula>()
                     {
-                        new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
-                        new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
-                        new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
+                        new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11), Poster="" },
+                        new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11), Poster=""  },
+                        new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11), Poster=""  },
                     };
         }
     }

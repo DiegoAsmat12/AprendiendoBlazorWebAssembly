@@ -1,9 +1,9 @@
 ﻿@page "/"
 @using AprendiendoBlazorWebAssembly.Client.Helpers
-@inject ServicioSingleton singleton
+@*@inject ServicioSingleton singleton*@
 @inject IRepositorio repositorio
-@using static AprendiendoBlazorWebAssembly.Client.Shared.MainLayout;
-<p style="color:@appState.Color;">El valor del singleton es: @singleton.Valor</p>
+@*@using static AprendiendoBlazorWebAssembly.Client.Shared.MainLayout;*@
+@*<p style="color:@appState.Color;">El valor del singleton es: @singleton.Valor</p>*@
 @*<h1>Hola, @UtilidadesString.Enmayuscular(nombre)</h1>
     <p> vamos a sumar 2+2 = @(2+2)</p>*@
 <div>
@@ -31,7 +31,7 @@
             </NoHayRegistros>
         </ListadoPeliculas>*@
 </div>
-<button @onclick="AgregarPelicula">AgregarPelicula</button>
+@*<button @onclick="AgregarPelicula">AgregarPelicula</button>*@
 @*<div>
         <h3>Crear nueva película</h3>
 
@@ -39,10 +39,10 @@
     </div>*@
 
 @code{
-    string nombre = "Diego";
+    //string nombre = "Diego";
 
-    ListadoPeliculas listado;
-    [CascadingParameter] private AppState appState { get; set; }
+    //ListadoPeliculas listado;
+    //[CascadingParameter] private AppState appState { get; set; }
 
     private List<Pelicula> Peliculas;
 
@@ -52,44 +52,44 @@
         Peliculas = repositorio.ObtenerPeliculas();
     }
 
-    private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
-                               {
-                                           {"placeholder", "nuevo placeholder" },
-                                           {"disabled", "false" }
-                                       };
+    //private Dictionary<string, object> EjemploTextboxParametros = new Dictionary<string, object>()
+    //                           {
+    //                                       {"placeholder", "nuevo placeholder" },
+    //                                       {"disabled", "false" }
+    //                                   };
 
-    //private List<Pelicula> ObtenerPeliculas()
+    ////private List<Pelicula> ObtenerPeliculas()
+    ////{
+    ////    //return new List<Pelicula>();
+    ////    //return null;
+    ////    return new List<Pelicula>(){
+    ////            new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
+    ////            new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
+    ////            new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
+    ////        };
+    ////}
+    //void AgregarPelicula()
     //{
-    //    //return new List<Pelicula>();
-    //    //return null;
-    //    return new List<Pelicula>(){
-    //            new Pelicula() { Titulo = "Omaewa", Lanzamiento = new DateTime(2020, 05, 11) },
-    //            new Pelicula() { Titulo = "Mo", Lanzamiento = new DateTime(2020, 05, 11) },
-    //            new Pelicula() { Titulo = "Shindeiru", Lanzamiento = new DateTime(2020, 05, 11) },
-    //        };
+    //    Peliculas.Add(new Pelicula() { Titulo = "Nueva Pelicula", Lanzamiento = DateTime.Today });
     //}
-    void AgregarPelicula()
-    {
-        Peliculas.Add(new Pelicula() { Titulo = "Nueva Pelicula", Lanzamiento = DateTime.Today });
-    }
 
-    public Pelicula SpiderMan { get { return ObtenerPelicula(); } }
+    //public Pelicula SpiderMan { get { return ObtenerPelicula(); } }
 
 
-    private Pelicula ObtenerPelicula()
-    {
-        return new Pelicula()
-        {
-            Titulo = "Omaewa",
-            Lanzamiento = new DateTime(2019, 7, 2)
-        };
-    }
+    //private Pelicula ObtenerPelicula()
+    //{
+    //    return new Pelicula()
+    //    {
+    //        Titulo = "Omaewa",
+    //        Lanzamiento = new DateTime(2019, 7, 2)
+    //    };
+    //}
 
 
 
-    private void ManejarClick()
-    {
-        Console.WriteLine("Me han clickeado (desde metodo)!");
-    }
+    //private void ManejarClick()
+    //{
+    //    Console.WriteLine("Me han clickeado (desde metodo)!");
+    //}
 
 }

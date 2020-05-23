@@ -2,7 +2,7 @@
 
 @inherits CounterBase
 
-<h1 style="color:@appState.Color;">Counter</h1>
+@*<h1 style="color:@appState.Color;">Counter</h1>
 <div style="display:flex;">
     <div style="width:150px;">
         <select @bind="appState.Color" class="form-control" style="margin-top:15px;">
@@ -20,7 +20,8 @@
     </div>
 </div>
 
-<p style="color:@appState.Color; font-size:@appState.Size">Current count: @currentCount</p>
+<p style="color:@appState.Color; font-size:@appState.Size">Current count: @currentCount</p>*@
+<p>Current count: @currentCount</p>
 <p>Current count: @Singleton.Valor</p>
 <p>Current count: @Transient.Valor</p>
 
