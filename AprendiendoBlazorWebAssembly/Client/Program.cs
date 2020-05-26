@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AprendiendoBlazorWebAssembly.Client.Repositorios;
+using Blazor.FileReader;
 
 namespace AprendiendoBlazorWebAssembly.Client
 {
@@ -28,6 +29,7 @@ namespace AprendiendoBlazorWebAssembly.Client
             services.AddSingleton<ServicioSingleton>();
             services.AddTransient<ServicioTransient>();
             services.AddScoped<IRepositorio, Repositorio>();
+            services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
         }
     }
 }
