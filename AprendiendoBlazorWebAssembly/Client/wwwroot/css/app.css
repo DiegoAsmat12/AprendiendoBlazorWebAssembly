@@ -135,6 +135,21 @@ app {
     right: 0.75rem;
     top: 0.5rem;
 }
+.form-markdown {
+    display: flex;
+}
+
+    .form-markdown textarea {
+        width: 500px;
+        height: 500px;
+        margin-right: 15px;
+    }
+
+    .form-markdown .markdown-container {
+        border: 1px dashed black;
+        width: 500px;
+        height: 500px;
+    }
 
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
@@ -181,3 +196,4 @@ app {
         display: block;
     }
 }
+
