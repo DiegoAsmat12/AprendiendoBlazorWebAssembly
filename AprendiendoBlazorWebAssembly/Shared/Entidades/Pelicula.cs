@@ -18,6 +18,8 @@ namespace AprendiendoBlazorWebAssembly.Shared.Entidades
         public DateTime? Lanzamiento { get; set; }
         public string Poster { get; set; }
         public List<GeneroPelicula> GenerosPelicula { get; set; } = new List<GeneroPelicula>();
+        public List<PeliculaActor> PeliculaActores { get; set; }
+
         public string TituloCortado
         {
             get

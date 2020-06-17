@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace AprendiendoBlazorWebAssembly.Client.Shared
         [Parameter] public RenderFragment FooterTemplate { get; set; }
         [Parameter] public int MinimumLength { get; set; } = 1;
         [Parameter] public int Debounce { get; set; } = 300;
-        [Parameter] public int MaximunSuggestion { get; set; } = 25;
+        [Parameter] public int MaximumSuggestions { get; set; } = 25;
         [Parameter] public bool DisplayClear { get; set; } = true;
 
         protected bool IsSearching { get; private set; } = false;
@@ -34,12 +35,13 @@ namespace AprendiendoBlazorWebAssembly.Client.Shared
             set
             {
                 _searchText = value;
+
                 if (value.Length == 0)
                 {
                     _debounceTimer.Stop();
                     Suggestions = new TItem[0];
                 }
-                else if(value.Length >=MinimumLength)
+                else if (value.Length >= MinimumLength)
                 {
                     _debounceTimer.Stop();
                     _debounceTimer.Start();
@@ -52,22 +54,20 @@ namespace AprendiendoBlazorWebAssembly.Client.Shared
 
         private Timer _debounceTimer;
         private string _searchText = string.Empty;
-        private bool _firstRender = true;
+        private bool _firstRender = true; // remove in preview 9
 
         protected override void OnInitialized()
         {
             if (SearchMethod == null)
             {
-                throw new InvalidOperationException($"{GetType()} requires a {nameof(SearchMethod)} parameter ");
+                throw new InvalidOperationException($"{GetType()} requires a {nameof(SearchMethod)} parameter.");
             }
-            if (SelectedTemplate == null)
-            {
-                throw new InvalidOperationException($"{GetType()} requires a {nameof(SelectedTemplate)} parameter ");
-            }
+
             if (ResultTemplate == null)
             {
-                throw new InvalidOperationException($"{GetType()} requires a {nameof(ResultTemplate)} parameter ");
+                throw new InvalidOperationException($"{GetType()} requires a {nameof(ResultTemplate)} parameter.");
             }
+
             _debounceTimer = new Timer();
             _debounceTimer.Interval = Debounce;
             _debounceTimer.AutoReset = false;
@@ -75,10 +75,12 @@ namespace AprendiendoBlazorWebAssembly.Client.Shared
 
             Initialize();
         }
+
         protected override void OnParametersSet()
         {
             Initialize();
         }
+
         private void Initialize()
         {
             IsShowingSuggestions = false;
@@ -92,35 +94,122 @@ namespace AprendiendoBlazorWebAssembly.Client.Shared
                 IsShowingSearchbar = false;
                 IsShowingMask = true;
             }
-
         }
+
         protected void HandleClickOnMask()
         {
             IsShowingMask = false;
             IsShowingSearchbar = true;
-
         }
+
         protected async Task ShowMaximumSuggestions()
         {
             IsShowingSuggestions = !IsShowingSuggestions;
+
             if (IsShowingSuggestions)
             {
                 SearchText = "";
                 IsSearching = true;
                 await InvokeAsync(StateHasChanged);
 
-                Suggestions = (await SearchMethod?.Invoke(_searchText)).Take(MaximunSuggestion).ToArray();
+                Suggestions = (await SearchMethod?.Invoke(_searchText)).Take(MaximumSuggestions).ToArray();
+
                 IsSearching = false;
                 await InvokeAsync(StateHasChanged);
             }
         }
-        protected void ShowSuggetions()
-        {
 
+        protected void ShowSuggestions()
+        {
+            if (Suggestions.Any())
+            {
+                IsShowingSuggestions = true;
+            }
         }
+
+        protected async Task HandleKeyUpOnSuggestion(KeyboardEventArgs args, TItem item)
+        {
+            // Maybe on any key except Tab and Enter, continue the typing option.
+            switch (args.Key)
+            {
+                case "Enter":
+                    await SelectResult(item);
+                    break;
+                case "Escape":
+                case "Backspace":
+                case "Delete":
+                    Initialize();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        protected async Task HandleKeyUpOnShowMaximum(KeyboardEventArgs args)
+        {
+            if (args.Key == "Enter")
+                await ShowMaximumSuggestions();
+        }
+
+        protected string GetSelectedSuggestionClass(TItem item)
+        {
+            if (Value == null)
+                return null;
+            if (Value.Equals(item))
+                return "blazored-typeahead__result-selected";
+            return null;
+        }
+
+        protected async void Search(Object source, ElapsedEventArgs e)
+        {
+            IsSearching = true;
+            await InvokeAsync(StateHasChanged);
+            Suggestions = (await SearchMethod?.Invoke(_searchText)).Take(MaximumSuggestions).ToArray();
+
+            IsSearching = false;
+            IsShowingSuggestions = true;
+            await InvokeAsync(StateHasChanged);
+        }
+
+        protected async Task SelectResult(TItem item)
+        {
+            SearchText = "";
+            await ValueChanged.InvokeAsync(item);
+        }
+
+        protected bool ShouldShowSuggestions()
+        {
+            return IsShowingSuggestions &&
+                   Suggestions.Any();
+        }
+
+        private bool HasValidSearch => !string.IsNullOrWhiteSpace(SearchText) && SearchText.Length >= MinimumLength;
+
+        private bool IsSearchingOrDebouncing => IsSearching || _debounceTimer.Enabled;
+
+        protected bool ShowNotFound()
+        {
+            return IsShowingSuggestions &&
+                   HasValidSearch &&
+                   !IsSearchingOrDebouncing &&
+                   !Suggestions.Any();
+        }
+
+        protected void OnFocusOut(object sender, EventArgs e)
+        {
+            Initialize();
+            InvokeAsync(StateHasChanged);
+        }
+
+        protected void OnEscape(object sender, EventArgs e)
+        {
+            Initialize();
+            InvokeAsync(StateHasChanged);
+        }
+
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _debounceTimer.Dispose();
         }
     }
 }
