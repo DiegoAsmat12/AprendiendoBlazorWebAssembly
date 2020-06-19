@@ -17,5 +17,10 @@ namespace AprendiendoBlazorWebAssembly.Client.Repositorios
             Response = response;
             HttpResponseMessage = httpResponseMessage;
         }
+        
+        public async Task<string> GetBody()
+        {
+            return await HttpResponseMessage.Content.ReadAsStringAsync();
+        }
     }
 }

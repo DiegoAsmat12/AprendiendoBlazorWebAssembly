@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AprendiendoBlazorWebAssembly.Server.Helpers;
 
 namespace AprendiendoBlazorWebAssembly.Server
 {
@@ -25,6 +26,9 @@ namespace AprendiendoBlazorWebAssembly.Server
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IAlmacenadorDeArchivos, AlmacenadorArchivosLocal>();
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
